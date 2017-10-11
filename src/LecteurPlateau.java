@@ -7,9 +7,7 @@ public class LecteurPlateau {
 
     public static int[][] lirePlateau(String fileName) {
         try{
-//            FileInputStream fstream = new FileInputStream(fileName+".peg");
             return fileReader(fileName);
-
         }
         catch(FileNotFoundException fnfe){
             System.out.println("Message"+fnfe.getMessage());
@@ -25,9 +23,8 @@ public class LecteurPlateau {
         int tabLine = 0;
         int tabColumn = 0;
 
-        while(lineScanner.hasNextLine()) { // ligne : 0
+        while(lineScanner.hasNextLine()) {
             String line = lineScanner.nextLine();
-//            System.out.println(line);
             numberScanner = new Scanner(line);
             while(numberScanner.hasNext()) {
                 String token = numberScanner.next();

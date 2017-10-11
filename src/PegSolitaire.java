@@ -6,12 +6,17 @@ public class PegSolitaire {
         int[][] tabCases = LecteurPlateau.lirePlateau(PUZZLE_NAME);
 
         Puzzle lePuzz = new Puzzle(tabCases);
+
         for(int i=0; i< tabCases.length; i++) {
             for(int j=0; j< tabCases.length; j++) {
-                System.out.print(tabCases[i][j]);
+                if(tabCases[i][j] == 2) {
+                    lePuzz.setEmptyStartLine(i);
+                    lePuzz.setEmptyStartColumn(j);
+                }
             }
-            System.out.println();
         }
-//        System.out.println("Hello world!");
+        PegLogique pl = new PegLogique(lePuzz);
+
+
     }
 }
