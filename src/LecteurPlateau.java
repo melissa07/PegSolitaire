@@ -8,7 +8,7 @@ public class LecteurPlateau {
     public static int[][] lirePlateau(String fileName) {
         try{
 //            FileInputStream fstream = new FileInputStream(fileName+".peg");
-            fileReader(fileName);
+            return fileReader(fileName);
 
         }
         catch(FileNotFoundException fnfe){

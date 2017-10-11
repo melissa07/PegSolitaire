@@ -6,13 +6,11 @@ public class PegSolitaire {
         int[][] tabCases = LecteurPlateau.lirePlateau(PUZZLE_NAME);
 
         Puzzle lePuzz = new Puzzle(tabCases);
-        // O(n^2)
-        for(int i=0; i<= tabCases.length; i++) {
-            for(int j=0; j<= tabCases.length; i++) {
-                System.out.println("Nombre a la rangee " +i+ " et" +
-                        "a la colonne " + j+ ": " +tabCases[i][j]);
+        for(int i=0; i< tabCases.length; i++) {
+            for(int j=0; j< tabCases.length; j++) {
+                System.out.print(tabCases[i][j]);
             }
-            System.out.println("\n");
+            System.out.println();
         }
 //        System.out.println("Hello world!");
     }
