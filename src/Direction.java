@@ -1,7 +1,12 @@
 public enum Direction {
-    NORD,
-    SUD,
-    EST,
-    OUEST
+    NORD(1),
+    SUD(2),
+    EST(3),
+    OUEST(4);
 
+    private int direction;
+
+    Direction(int i) {
+        this.direction = i;
+    }
 }

@@ -1,11 +1,12 @@
 import jdk.management.resource.internal.inst.FileOutputStreamRMHooks;
 
 public class PegLogique {
-//    private Direction d = Direction.NORD; // NORD, EST, SUD, OUEST
+    private Direction d = Direction.NORD; // NORD, EST, SUD, OUEST
     private Puzzle p = null;
     private final int IS_EMPTY = 2;
     private final int IS_FILLED = 1;
     private final int OUT_OF_GAME = 0;
+    private int total_pegs = 0;
     private int curX;
     private int curY;
 //    private MementoDeplacement md = null;
@@ -15,10 +16,21 @@ public class PegLogique {
         this.curX = p.getEmptyStartLine();
         this.curY = p.getEmptyStartColumn();
         System.out.println("In PegLogique constructor");
-        System.out.println("Empty position is at line: " +curX+ " and column: " +curY);
+        System.out.println("Original board: ");
+        printBoard();
+        System.out.println("Solving the puzzle...");
         movePeg(curX, curY);
 //        System.out.println("Is solution found? : " +isSolution());
 
+    }
+
+    private void printBoard() {
+        for (int i=0; i < p.getTabCases().length; i++) {
+            for (int j=0; j < p.getTabCases().length; j++) {
+                System.out.print(p.getTabCases()[i][j]+" ");
+            }
+            System.out.println();
+        }
     }
 
     public boolean movePeg(int curX, int curY) {
@@ -50,11 +62,11 @@ public class PegLogique {
 
     public boolean isMovable(int curX, int curY) {
         int[][] tabCases = p.getTabCases();
-
-        if(tabCases[curX][curY] == IS_FILLED) {
-            System.out.println("Current position is filled");
-        }
-        System.out.println("Current position is empty");
+        
+//        if(tabCases[curX][curY] == IS_FILLED) {
+//            System.out.println("Current position is filled");
+//        }
+//        System.out.println("Current position is empty");
         return false;
     }
 
