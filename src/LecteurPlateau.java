@@ -17,11 +17,18 @@ public class LecteurPlateau {
     }
 
     private static int[][] fileReader(String fileName) throws FileNotFoundException {
-        int[][] tabCases = new int[MAX_SIZE][MAX_SIZE];
+        int[][] tabCases = new int[MAX_SIZE + 4][MAX_SIZE + 4];
         Scanner lineScanner = new Scanner(new File(fileName+".peg"));
         Scanner numberScanner = null;
         int tabLine = 0;
         int tabColumn = 0;
+
+        //remplie le tableau de 2 case plus large et plus long de 8 pour eviter les null pointer
+        for(int i = 0; i < tabCases.length; i++){
+            for(int j = 0; j < tabCases.length; j++){
+                tabCases[i][j] = 8;
+            }
+        }
 
         while(lineScanner.hasNextLine()) {
             String line = lineScanner.nextLine();
@@ -30,7 +37,7 @@ public class LecteurPlateau {
                 String token = numberScanner.next();
                 char[] tabToken = token.toCharArray();
                 for (int i =0; i< tabToken.length; i++) {
-                    tabCases[tabLine][tabColumn] = Character.getNumericValue(tabToken[i]);
+                    tabCases[tabLine+2][tabColumn+2] = Character.getNumericValue(tabToken[i]);
                     tabColumn += 1;
                 }
                 tabColumn = 0;
