@@ -1,6 +1,3 @@
-import java.util.ArrayList;
-import java.util.List;
-
 public class Deplacement {
     private int curX;
     private int curY;
@@ -42,8 +39,8 @@ public class Deplacement {
     }
 
     public void getDeplacementFromMemento(MementoDeplacement memento){
-        curX = memento.getCurX();
-        curY = memento.getCurY();
+        curX = memento.getPosX();
+        curY = memento.getPosY();
         direction = memento.getDirection();
     }
 }

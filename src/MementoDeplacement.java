@@ -1,29 +1,29 @@
 public class MementoDeplacement {
-    private int curX;
-    private int curY;
+    private int posX;
+    private int posY;
     private Direction direction;
 
-    public MementoDeplacement(int curX, int curY, Direction direction){
-        this.curX = curX;
-        this.curY = curY;
+    public MementoDeplacement(int posX, int posY, Direction direction){
+        this.posX = posX;
+        this.posY = posY;
         this.direction = direction;
     }
 
-    public int getCurX() {
+    public int getPosX() {
 
-        return curX;
+        return posX;
     }
 
-    public void setCurX(int curX) {
-        this.curX = curX;
+    public void setPosX(int posX) {
+        this.posX = posX;
     }
 
-    public int getCurY() {
-        return curY;
+    public int getPosY() {
+        return posY;
     }
 
-    public void setCurY(int curY) {
-        this.curY = curY;
+    public void setPosY(int posY) {
+        this.posY = posY;
     }
 
     public Direction getDirection() {

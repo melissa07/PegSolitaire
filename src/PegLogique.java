@@ -1,5 +1,3 @@
-import jdk.management.resource.internal.inst.FileOutputStreamRMHooks;
-
 public class PegLogique {
     private Direction d = Direction.NORD; // NORD, EST, SUD, OUEST
     private Puzzle p;
@@ -9,7 +7,7 @@ public class PegLogique {
     private int total_pegs = 0;
     private int curX;
     private int curY;
-    private Deplacement depl = new Deplacement();
+    private DeplacementsCakeTaker depl = new DeplacementsCakeTaker();
 //    private MementoDeplacement md = null;
 
     public PegLogique(Puzzle p) {
@@ -40,33 +38,33 @@ public class PegLogique {
                         tabCases[curX][curY] = IS_FILLED;
                         tabCases[curX][curY-2] = IS_EMPTY;
                         tabCases[curX][curY-1] = IS_EMPTY;
-                        depl.addDeplacement(new Deplacement(Direction.NORD, curX, curY)); // todo est-ce que ce sont les bonnes coordonnes a enregistrer ?
+                        depl.add(new MementoDeplacement(curX, curY, Direction.NORD)); // todo est-ce que ce sont les bonnes coordonnes a enregistrer ?
 
                         break;
                     case EST:
                         tabCases[curX][curY] = IS_FILLED;
                         tabCases[curX+2][curY] = IS_EMPTY;
                         tabCases[curX+1][curY] = IS_EMPTY;
-                        depl.addDeplacement(new Deplacement(Direction.EST, curX, curY)); // todo est-ce que ce sont les bonnes coordonnes a enregistrer ?
+                        depl.add(new MementoDeplacement(curX, curY, Direction.EST)); // todo est-ce que ce sont les bonnes coordonnes a enregistrer ?
                         break;
                     case SUD:
                         tabCases[curX][curY] = IS_FILLED;
                         tabCases[curX][curY+2] = IS_EMPTY;
                         tabCases[curX][curY+1] = IS_EMPTY;
-                        depl.addDeplacement(new Deplacement(Direction.SUD, curX, curY)); // todo est-ce que ce sont les bonnes coordonnes a enregistrer ?
+                        depl.add(new MementoDeplacement(curX, curY, Direction.SUD)); // todo est-ce que ce sont les bonnes coordonnes a enregistrer ?
                         break;
                     case OUEST:
                         tabCases[curX][curY] = IS_FILLED;
                         tabCases[curX-2][curY] = IS_EMPTY;
                         tabCases[curX-1][curY] = IS_EMPTY;
-                        depl.addDeplacement(new Deplacement(Direction.OUEST, curX, curY)); // todo est-ce que ce sont les bonnes coordonnes a enregistrer ?
+                        depl.add(new MementoDeplacement(curX, curY, Direction.OUEST)); // todo est-ce que ce sont les bonnes coordonnes a enregistrer ?
                         break;
                 }
                 p.setTabCases(tabCases);
 
-                for (int s=0; s<depl.listDeplacements.size(); s++) {
-                    System.out.println("Deplacement: " +depl.listDeplacements.get(s).getD() + " " + depl.listDeplacements.get(s).getDeplX()
-                            + " " + depl.listDeplacements.get(s).getDeplY());
+                for (int s=0; s<depl.getSize(); s++) {
+                    System.out.println("Deplacement: " +depl.get(s).getDirection() + " " + depl.get(s).getPosX()
+                            + " " + depl.get(s).getPosY());
                 }
 
                 switch (d){
@@ -108,10 +106,10 @@ public class PegLogique {
                     tabCases[curX + 2][curY + 2] = IS_FILLED;
                 }
                 else {
-                    depl.undoDeplacement(); // todo replace pegs at their previous places
-                    if(depl.listDeplacements.size() > 0) {
-                        curX = depl.listDeplacements.get(depl.listDeplacements.size()-1).getDeplX();
-                        curY = depl.listDeplacements.get(depl.listDeplacements.size()-1).getDeplY();
+                    depl.undo(); // todo replace pegs at their previous places
+                    if(depl.getSize() > 0) {
+                        curX = depl.get(depl.getSize()-1).getPosX();
+                        curY = depl.get(depl.getSize()-1).getPosY();
                     }
                 }
             }
