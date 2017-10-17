@@ -50,7 +50,7 @@ public class PegLogique {
                 else if(tabCases[curX][curY-1] == IS_EMPTY){curY = curY - 1;}
                 else if(tabCases[curX-1][curY] == IS_EMPTY){curX = curX - 1;}
             }
-
+            //fin version temporaire
 
             if(isMovable(curX, curY, d)) {
                 System.out.println("Peg is movable");
@@ -131,7 +131,7 @@ public class PegLogique {
 
         return false;
 
-        /*
+      /*
         // je suis pas sur du double boucle for. Les 2 boucle for parcours quoi exactement? Il faut pas juste itere nos 7 possibilité?
 
         for (int i = curX; curX < p.getTabCases().length; curX++) {

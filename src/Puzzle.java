@@ -2,6 +2,7 @@ public class Puzzle {
     private int[][]tabCases = null;
     private int emptyStartLine;
     private int emptyStartColumn;
+    private int numberBorderOfBoard = 8;
 
 
     public Puzzle(int[][] tabCases) {
@@ -35,7 +36,9 @@ public class Puzzle {
     public void printBoard(){
         for(int i = 0; i < this.tabCases.length; i++){
             for(int j = 0; j < this.tabCases.length; j++){
-                System.out.print(this.tabCases[j][i] + " ");
+                if(this.tabCases[j][i] != numberBorderOfBoard){
+                    System.out.print(this.tabCases[j][i] + " ");
+                }
             }
             System.out.println();
         }
