@@ -2,7 +2,8 @@ public class Puzzle {
     private int[][]tabCases = null;
     private int emptyStartLine;
     private int emptyStartColumn;
-    private int numberBorderOfBoard = 8;
+    private int newX;
+    private int newY;
 
 
     public Puzzle(int[][] tabCases) {
@@ -25,6 +26,22 @@ public class Puzzle {
         this.emptyStartColumn = emptyStartColumn;
     }
 
+    public int getNewX() {
+        return newX;
+    }
+
+    public void setNewX(int newX) {
+        this.newX = newX;
+    }
+
+    public int getNewY() {
+        return newY;
+    }
+
+    public void setNewY(int newY) {
+        this.newY = newY;
+    }
+
     public int[][] getTabCases() {
         return tabCases;
     }
@@ -36,9 +53,7 @@ public class Puzzle {
     public void printBoard(){
         for(int i = 0; i < this.tabCases.length; i++){
             for(int j = 0; j < this.tabCases.length; j++){
-                if(this.tabCases[j][i] != numberBorderOfBoard){
                     System.out.print(this.tabCases[j][i] + " ");
-                }
             }
             System.out.println();
         }

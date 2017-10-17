@@ -9,6 +9,7 @@ public class PegLogique {
     private int total_pegs = 0;
     private int curX;
     private int curY;
+    private Deplacement depl = new Deplacement();
 //    private MementoDeplacement md = null;
 
     public PegLogique(Puzzle p) {
@@ -30,28 +31,7 @@ public class PegLogique {
         int[][] tabCases = p.getTabCases();
         p.printBoard();
 
-        for(int i = 0; i < 7; i++){
-
-            //quand on a fait tout les case on regarde lautre case qui as ete liberer par coup precedent
-            //TODO remplacer NORD, EST, SUD, OUEST, par la direction du dernier coup a l aide du memento.
-        /*  if(i == 4) {
-                switch (d) {
-                    case NORD: curY =curY - 1;
-                    case EST: curX = curX - 1;
-                    case SUD: curY = curY + 1;
-                    case OUEST: curX = curX + 1;
-                }
-            }
-        */
-            //version temporaire en attendant le memento pour tester le reste de l<algo
-            if(i == 4) {
-                if(tabCases[curX][curY+1] == IS_EMPTY){curY = curY + 1;}
-                else if(tabCases[curX+1][curY] == IS_EMPTY){curX = curX + 1;}
-                else if(tabCases[curX][curY-1] == IS_EMPTY){curY = curY - 1;}
-                else if(tabCases[curX-1][curY] == IS_EMPTY){curX = curX - 1;}
-            }
-            //fin version temporaire
-
+        for(int i = 0; i < 7; i++) {
             if(isMovable(curX, curY, d)) {
                 System.out.println("Peg is movable");
                 //deplacement (a mettre dans memento pour annuler si mauvais mouvement)
@@ -60,26 +40,34 @@ public class PegLogique {
                         tabCases[curX][curY] = IS_FILLED;
                         tabCases[curX][curY-2] = IS_EMPTY;
                         tabCases[curX][curY-1] = IS_EMPTY;
+                        depl.addDeplacement(new Deplacement(Direction.NORD, curX, curY)); // todo est-ce que ce sont les bonnes coordonnes a enregistrer ?
+
                         break;
                     case EST:
                         tabCases[curX][curY] = IS_FILLED;
                         tabCases[curX+2][curY] = IS_EMPTY;
                         tabCases[curX+1][curY] = IS_EMPTY;
+                        depl.addDeplacement(new Deplacement(Direction.EST, curX, curY)); // todo est-ce que ce sont les bonnes coordonnes a enregistrer ?
                         break;
                     case SUD:
                         tabCases[curX][curY] = IS_FILLED;
                         tabCases[curX][curY+2] = IS_EMPTY;
                         tabCases[curX][curY+1] = IS_EMPTY;
+                        depl.addDeplacement(new Deplacement(Direction.SUD, curX, curY)); // todo est-ce que ce sont les bonnes coordonnes a enregistrer ?
                         break;
                     case OUEST:
                         tabCases[curX][curY] = IS_FILLED;
                         tabCases[curX-2][curY] = IS_EMPTY;
                         tabCases[curX-1][curY] = IS_EMPTY;
+                        depl.addDeplacement(new Deplacement(Direction.OUEST, curX, curY)); // todo est-ce que ce sont les bonnes coordonnes a enregistrer ?
                         break;
                 }
                 p.setTabCases(tabCases);
 
-                //fin
+                for (int s=0; s<depl.listDeplacements.size(); s++) {
+                    System.out.println("Deplacement: " +depl.listDeplacements.get(s).getD() + " " + depl.listDeplacements.get(s).getDeplX()
+                            + " " + depl.listDeplacements.get(s).getDeplY());
+                }
 
                 switch (d){
                     case NORD:
@@ -106,11 +94,26 @@ public class PegLogique {
                 }
 
                 //TODO Il faut anuller le deplacement effectuer avec le memento
-                //du code temporaire qui se veux undo le deplacement
-                tabCases[curX][curY] = IS_EMPTY;
-                tabCases[curX + 1][curY + 1] = IS_FILLED;
-                tabCases[curX + 2][curY + 2] = IS_FILLED;
-                //undo fin
+
+                // recupere le dernier move du "memento"
+
+//                if(depl.listDeplacements.size() > 0) {
+//                    curX = depl.listDeplacements.get(depl.listDeplacements.size()-1).getDeplX();
+//                    curY = depl.listDeplacements.get(depl.listDeplacements.size()-1).getDeplY();
+//                }
+                // si on atteint une bordure
+                if(curX+2 < p.getTabCases().length && curY+2 < p.getTabCases().length) {
+                    tabCases[curX][curY] = IS_EMPTY;
+                    tabCases[curX + 1][curY + 1] = IS_FILLED;
+                    tabCases[curX + 2][curY + 2] = IS_FILLED;
+                }
+                else {
+                    depl.undoDeplacement();
+                    if(depl.listDeplacements.size() > 0) {
+                        curX = depl.listDeplacements.get(depl.listDeplacements.size()-1).getDeplX();
+                        curY = depl.listDeplacements.get(depl.listDeplacements.size()-1).getDeplY();
+                    }
+                }
             }
             //prochaine direction
             switch (d){
