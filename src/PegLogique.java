@@ -18,8 +18,8 @@ public class PegLogique {
         System.out.println("Original board: ");
         p.printBoard();
         System.out.println("Solving the puzzle...");
-        movePeg(curX, curY);
-//        System.out.println("Is solution found? : " +isSolution());
+        boolean foundSolution = movePeg(curX, curY);
+        System.out.println("Is solution found? : " +foundSolution);
 
     }
 
@@ -130,31 +130,6 @@ public class PegLogique {
         }
 
         return false;
-
-      /*
-        // je suis pas sur du double boucle for. Les 2 boucle for parcours quoi exactement? Il faut pas juste itere nos 7 possibilité?
-
-        for (int i = curX; curX < p.getTabCases().length; curX++) {
-            for (int j = curY; curY < p.getTabCases().length; curY++) {
-                if(isOccupied(curX, curY)) { // has a peg on it
-                    // checker si la position dapres (peu importe la direction) est occupee
-                    // checker si 2 positions apres (meme direction que la premiere) est occupee
-                    // la fonction ismovable fait cette job
-                    // p.S. notre curX, curY sont les positions d'un point vide ici
-                    // sinon la logique ne marche plus
-                    // a la fin resetter la position curx et cury a un nouveau point vide
-                    if(isMovable(curX, curY, d)) {
-                        System.out.println("Peg is movable");
-                    }
-
-//                    if(isSolution())
-//                        continue;
-                }
-            }
-        }
-        return false;
-
-        */
     }
 
     public boolean isOccupied(int curX, int curY) {
@@ -166,12 +141,20 @@ public class PegLogique {
 
         switch (dir) {
             case NORD:
+                if(curY-2 < 0)
+                    return false;
                 return tabCases[curX][curY] == IS_EMPTY && tabCases[curX][curY-2] == IS_FILLED && tabCases[curX][curY-1] == IS_FILLED;
             case EST:
+                if(curX+2 >= tabCases.length)
+                    return false;
                 return tabCases[curX][curY] == IS_EMPTY && tabCases[curX+2][curY] == IS_FILLED && tabCases[curX+1][curY] == IS_FILLED;
             case SUD:
+                if(curY+2 >= tabCases.length)
+                    return false;
                 return tabCases[curX][curY] == IS_EMPTY && tabCases[curX][curY+2] == IS_FILLED && tabCases[curX][curY+1] == IS_FILLED;
             case OUEST:
+                if(curX-2 < 0)
+                    return false;
                 return tabCases[curX][curY] == IS_EMPTY && tabCases[curX-2][curY] == IS_FILLED && tabCases[curX-1][curY] == IS_FILLED;
         }
         return false;
@@ -187,7 +170,7 @@ public class PegLogique {
                 }
             }
         }
-        return nbPegsFilled == 1 ? true : false;
+        return nbPegsFilled == IS_FILLED ? true : false;
     }
 
 }
