@@ -108,7 +108,7 @@ public class PegLogique {
                     tabCases[curX + 2][curY + 2] = IS_FILLED;
                 }
                 else {
-                    depl.undoDeplacement();
+                    depl.undoDeplacement(); // todo replace pegs at their previous places
                     if(depl.listDeplacements.size() > 0) {
                         curX = depl.listDeplacements.get(depl.listDeplacements.size()-1).getDeplX();
                         curY = depl.listDeplacements.get(depl.listDeplacements.size()-1).getDeplY();
