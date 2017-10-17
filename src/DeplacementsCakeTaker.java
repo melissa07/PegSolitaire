@@ -2,13 +2,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DeplacementsCakeTaker {
-    List<MementoDeplacement> listDeplacements = new ArrayList<>();
+    List<MementoDeplacement> listMementoDeplacements = new ArrayList<MementoDeplacement>();
 
-    public void addDeplacement(MementoDeplacement d) {
-        listDeplacements.add(d);
+    public void add(MementoDeplacement mementoDeplacement) {
+        listMementoDeplacements.add(mementoDeplacement);
     }
 
-    public MementoDeplacement getDeplacement(int index) {
-        return listDeplacements.get(index);
+    public MementoDeplacement get(int index) {
+        return listMementoDeplacements.get(index);
     }
 }
