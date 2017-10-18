@@ -29,7 +29,21 @@ public class PegLogique {
         int[][] tabCases = p.getTabCases();
         p.printBoard();
 
-        for(int i = 0; i < 7; i++) {
+        for(int i = 0; i <= 7; i++) {
+
+            if(i == 4) {
+                switch (depl.get(depl.getSize()-1).getDirection()) {
+                    case NORD: curY =curY + 1;
+                    break;
+                    case EST: curX = curX - 1;
+                    break;
+                    case SUD: curY = curY - 1;
+                    break;
+                    case OUEST: curX = curX + 1;
+                    break;
+                }
+            }
+
             if(isMovable(curX, curY, d)) {
                 System.out.println("Peg is movable");
                 //deplacement (a mettre dans memento pour annuler si mauvais mouvement)
@@ -91,27 +105,41 @@ public class PegLogique {
                         break;
                 }
 
-                //TODO Il faut anuller le deplacement effectuer avec le memento
+                
+                if(depl.getSize() > 0) {
+                    curX = depl.get(depl.getSize()-1).getPosX();
+                    curY = depl.get(depl.getSize()-1).getPosY();
+                    d = depl.get(depl.getSize()-1).getDirection();
 
-                // recupere le dernier move du "memento"
-
-//                if(depl.listDeplacements.size() > 0) {
-//                    curX = depl.listDeplacements.get(depl.listDeplacements.size()-1).getDeplX();
-//                    curY = depl.listDeplacements.get(depl.listDeplacements.size()-1).getDeplY();
-//                }
-                // si on atteint une bordure
-                if(curX+2 < p.getTabCases().length && curY+2 < p.getTabCases().length) {
-                    tabCases[curX][curY] = IS_EMPTY;
-                    tabCases[curX + 1][curY + 1] = IS_FILLED;
-                    tabCases[curX + 2][curY + 2] = IS_FILLED;
-                }
-                else {
-                    depl.undo(); // todo replace pegs at their previous places
-                    if(depl.getSize() > 0) {
-                        curX = depl.get(depl.getSize()-1).getPosX();
-                        curY = depl.get(depl.getSize()-1).getPosY();
+                    switch (d) {
+                        case NORD:
+                            tabCases[curX][curY] = IS_EMPTY;
+                            tabCases[curX][curY-2] = IS_FILLED;
+                            tabCases[curX][curY-1] = IS_FILLED;
+                            break;
+                        case EST:
+                            tabCases[curX][curY] = IS_EMPTY;
+                            tabCases[curX+2][curY] = IS_FILLED;
+                            tabCases[curX+1][curY] = IS_FILLED;
+                            break;
+                        case SUD:
+                            tabCases[curX][curY] = IS_EMPTY;
+                            tabCases[curX][curY+2] = IS_FILLED;
+                            tabCases[curX][curY+1] = IS_FILLED;
+                            break;
+                        case OUEST:
+                            tabCases[curX][curY] = IS_EMPTY;
+                            tabCases[curX-2][curY] = IS_FILLED;
+                            tabCases[curX-1][curY] = IS_FILLED;
+                            break;
                     }
+
+                    System.out.println("retour en arriere.");
+                    p.printBoard();
                 }
+                depl.undo(); // todo replace pegs at their previous places
+
+                //}
             }
             //prochaine direction
             switch (d){
