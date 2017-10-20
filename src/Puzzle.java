@@ -65,7 +65,7 @@ public class Puzzle {
     public void printBoard(){
         for(int i = 0; i < this.tabCases.length; i++){
             for(int j = 0; j < this.tabCases.length; j++){
-                    System.out.print(this.tabCases[j][i] + " ");
+                    System.out.print(this.tabCases[i][j] + " ");
             }
             System.out.println();
         }

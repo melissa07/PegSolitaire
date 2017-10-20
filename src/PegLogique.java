@@ -1,4 +1,9 @@
 public class PegLogique {
+    private final int NORTH = 1;
+    private final int EAST = 0;
+    private final int WEST = 2;
+    private final int SOUTH =3;
+
     private Puzzle p;
     private final int IS_EMPTY = 2;
     private final int IS_FILLED = 1;
@@ -46,28 +51,7 @@ public class PegLogique {
                         counter++;
                         //System.out.println("Peg is movable");
                         //deplacement (a mettre dans memento pour annuler si mauvais mouvement)
-                        switch (k) {
-                            case 1:
-                                tabCases[curX][curY] = IS_FILLED;
-                                tabCases[curX][curY - 2] = IS_EMPTY;
-                                tabCases[curX][curY - 1] = IS_EMPTY;
-                                break;
-                            case 0:
-                                tabCases[curX][curY] = IS_FILLED;
-                                tabCases[curX + 2][curY] = IS_EMPTY;
-                                tabCases[curX + 1][curY] = IS_EMPTY;
-                                break;
-                            case 3:
-                                tabCases[curX][curY] = IS_FILLED;
-                                tabCases[curX][curY + 2] = IS_EMPTY;
-                                tabCases[curX][curY + 1] = IS_EMPTY;
-                                break;
-                            case 2:
-                                tabCases[curX][curY] = IS_FILLED;
-                                tabCases[curX - 2][curY] = IS_EMPTY;
-                                tabCases[curX - 1][curY] = IS_EMPTY;
-                                break;
-                        }
+                        tabCases = move(k, curX, curY, tabCases);
                         tabSolution = fillSolution(tabSolution, tabCases, nbGoodMove);
                         nbGoodMove++;
                         p.setTabCases(tabCases);
@@ -76,29 +60,7 @@ public class PegLogique {
                             return true;
                         }else {
                             nbGoodMove--;
-                            switch (k) {
-                                case 1:
-                                    tabCases[curX][curY] = IS_EMPTY;
-                                    tabCases[curX][curY - 2] = IS_FILLED;
-                                    tabCases[curX][curY - 1] = IS_FILLED;
-                                    break;
-                                case 0:
-                                    tabCases[curX][curY] = IS_EMPTY;
-                                    tabCases[curX + 2][curY] = IS_FILLED;
-                                    tabCases[curX + 1][curY] = IS_FILLED;
-                                    break;
-                                case 3:
-                                    tabCases[curX][curY] = IS_EMPTY;
-                                    tabCases[curX][curY + 2] = IS_FILLED;
-                                    tabCases[curX][curY + 1] = IS_FILLED;
-                                    break;
-                                case 2:
-                                    tabCases[curX][curY] = IS_EMPTY;
-                                    tabCases[curX - 2][curY] = IS_FILLED;
-                                    tabCases[curX - 1][curY] = IS_FILLED;
-                                    break;
-                            }
-                            //tabSolution[nbGoodMove] = tabCases;
+                            tabCases = unMove(k, curX, curY, tabCases);
                             p.setTabCases(tabCases);
                             //System.out.println("retour en arriere.");
                             //p.printBoard();
@@ -121,25 +83,83 @@ public class PegLogique {
         int[][] tabCases = p.getTabCases();
 
         switch (k) {
-            case 1:
+            case NORTH:
                 if(curY-2 < 0)
                     return false;
                 return tabCases[curX][curY] == IS_EMPTY && tabCases[curX][curY-2] == IS_FILLED && tabCases[curX][curY-1] == IS_FILLED;
-            case 0:
+            case EAST:
                 if(curX+2 >= tabCases.length)
                     return false;
                 return tabCases[curX][curY] == IS_EMPTY && tabCases[curX+2][curY] == IS_FILLED && tabCases[curX+1][curY] == IS_FILLED;
-            case 3:
+            case SOUTH:
                 if(curY+2 >= tabCases.length)
                     return false;
                 return tabCases[curX][curY] == IS_EMPTY && tabCases[curX][curY+2] == IS_FILLED && tabCases[curX][curY+1] == IS_FILLED;
-            case 2:
+            case WEST:
                 if(curX-2 < 0)
                     return false;
                 return tabCases[curX][curY] == IS_EMPTY && tabCases[curX-2][curY] == IS_FILLED && tabCases[curX-1][curY] == IS_FILLED;
         }
         return false;
     }
+
+    private int[][] move(int direction, int curX, int curY, int[][] board){
+
+        switch (direction) {
+            case NORTH:
+                board[curX][curY] = IS_FILLED;
+                board[curX][curY - 2] = IS_EMPTY;
+                board[curX][curY - 1] = IS_EMPTY;
+                break;
+            case EAST:
+                board[curX][curY] = IS_FILLED;
+                board[curX + 2][curY] = IS_EMPTY;
+                board[curX + 1][curY] = IS_EMPTY;
+                break;
+            case SOUTH:
+                board[curX][curY] = IS_FILLED;
+                board[curX][curY + 2] = IS_EMPTY;
+                board[curX][curY + 1] = IS_EMPTY;
+                break;
+            case WEST:
+                board[curX][curY] = IS_FILLED;
+                board[curX - 2][curY] = IS_EMPTY;
+                board[curX - 1][curY] = IS_EMPTY;
+                break;
+        }
+
+        return board;
+    }
+
+    private int[][] unMove(int direction, int curX, int curY, int[][] board){
+
+        switch (direction) {
+            case NORTH:
+                board[curX][curY] = IS_EMPTY;
+                board[curX][curY - 2] = IS_FILLED;
+                board[curX][curY - 1] = IS_FILLED;
+                break;
+            case EAST:
+                board[curX][curY] = IS_EMPTY;
+                board[curX + 2][curY] = IS_FILLED;
+                board[curX + 1][curY] = IS_FILLED;
+                break;
+            case SOUTH:
+                board[curX][curY] = IS_EMPTY;
+                board[curX][curY + 2] = IS_FILLED;
+                board[curX][curY + 1] = IS_FILLED;
+                break;
+            case WEST:
+                board[curX][curY] = IS_EMPTY;
+                board[curX - 2][curY] = IS_FILLED;
+                board[curX - 1][curY] = IS_FILLED;
+                break;
+        }
+
+        return board;
+    }
+
+
 
     private int[][][] fillSolution(int[][][] tabSolution,int[][] tabCases, int ind){
 
@@ -150,6 +170,10 @@ public class PegLogique {
         }
 
         return tabSolution;
+    }
+
+    private void excludSolution(){
+
     }
 
     public boolean isSolution() {
