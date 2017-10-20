@@ -50,6 +50,18 @@ public class Puzzle {
         this.tabCases = tabCases;
     }
 
+    public int getNbPeg(){
+        int nbPeg = 0;
+        for(int i = 0; i < this.tabCases.length; i++){
+            for(int j = 0; j < this.tabCases.length; j++){
+               if(tabCases[i][j] == 1){
+                   nbPeg++;
+               }
+            }
+        }
+        return nbPeg;
+    }
+
     public void printBoard(){
         for(int i = 0; i < this.tabCases.length; i++){
             for(int j = 0; j < this.tabCases.length; j++){
